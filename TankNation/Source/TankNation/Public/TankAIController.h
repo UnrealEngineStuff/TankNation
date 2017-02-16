@@ -2,13 +2,15 @@
 
 #pragma once
 
-#include "Tank.h"
+
 #include "AIController.h"
 #include "TankAIController.generated.h"
 
 /**
  * 
  */
+class ATank;
+
 UCLASS()
 class TANKNATION_API ATankAIController : public AAIController
 {

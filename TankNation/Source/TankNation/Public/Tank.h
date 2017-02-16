@@ -4,10 +4,11 @@
 
 
 #include "GameFramework/Pawn.h"
-#include "TankAimingComponent.h"
 #include "Tank.generated.h"    //No include below this 
 
 class UTankBarrel;
+class UTankAimingComponent;
+
 UCLASS()
 class TANKNATION_API ATank : public APawn
 {

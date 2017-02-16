@@ -2,6 +2,7 @@
 
 #include "TankNation.h"
 #include "TankBarrel.h"
+#include "TankAimingComponent.h"
 #include "Tank.h"
 
 
