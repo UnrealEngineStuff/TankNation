@@ -18,11 +18,13 @@ UTankAimingComponent::UTankAimingComponent()
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel*BarrelToSet)
 {
+	if(BarrelToSet)
 	Barrel = BarrelToSet;
 }
 
 void UTankAimingComponent::SetTurretReference(UTurret*TurretToSet)
 {
+	if (Turret)
 	Turret = TurretToSet;
 }
 
@@ -31,6 +33,12 @@ void UTankAimingComponent::AimAt(FVector HitLocation,float firingSpeed)
 	if (!Barrel) 
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Cant Find Barrel "));
+		return;
+	}
+
+	if (!Turret)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Cant Find Turret "));
 		return;
 	}
 
@@ -47,7 +55,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation,float firingSpeed)
 	{
 		auto AimDirection = OutTossVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
-		//RotateBarrelTowards(AimDirection);
+		RotateTurretTowards(AimDirection);
 		auto Time = GetWorld()->GetTimeSeconds();
 		UE_LOG(LogTemp, Warning, TEXT("%f : Aim Solution found"), Time)
 	}
@@ -72,16 +80,17 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	// Fire when Ready 
 }
 
-void UTankAimingComponent::RotateTurret(FVector AimDirection)
+void UTankAimingComponent::RotateTurretTowards(FVector AimDirection)
 {
-	//Calculate Difference between current barrel rotation and AimDirection
-	auto TurretRotator = Turret->GetForwardVector().Rotation();
-	auto AimAsRotator = AimDirection.Rotation();
-	auto DeltaRot = AimAsRotator - TurretRotator;
-	//Move Barrel To the desired Location
 
-	//it would matter if it is greater than +1 or -1
-	//it wll be clamped value greater than -1 will become -1
-	Turret->Azimuth(DeltaRot.Yaw);
-	// Fire when Ready 
+		//Calculate Difference between current barrel rotation and AimDirection
+		auto TurretRotator = Turret->GetForwardVector().Rotation();
+		auto AimAsRotator = AimDirection.Rotation();
+		auto DeltaRot = AimAsRotator - TurretRotator;
+
+		//it would matter if it is greater than +1 or -1
+		//it wll be clamped value greater than -1 will become -1
+		Turret->Azimuth(DeltaRot.Yaw);
+		// Fire when Ready 
+	
 }
