@@ -29,5 +29,8 @@ private:
 
 	//Move the Barrel at the given Direction
 	void MoveBarrelTowards(FVector AimDirection);
+
+	//Rotate the Barrel at the given Direction
+	void RotateBarrelTowards(FVector AimDirection);
 	
 };

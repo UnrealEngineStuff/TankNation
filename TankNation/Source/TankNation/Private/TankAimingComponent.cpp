@@ -39,13 +39,14 @@ void UTankAimingComponent::AimAt(FVector HitLocation,float firingSpeed)
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity
 	(
 		this, OutTossVelocity, StartLocation,
-		HitLocation, firingSpeed,
+		HitLocation, firingSpeed,false,0,0,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	);
 	if(bHaveAimSolution)
 	{
 		auto AimDirection = OutTossVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
+		//RotateBarrelTowards(AimDirection);
 		auto Time = GetWorld()->GetTimeSeconds();
 		UE_LOG(LogTemp, Warning, TEXT("%f : Aim Solution found"), Time)
 	}
@@ -61,9 +62,25 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	//Calculate Difference between current barrel rotation and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
-	auto DetlaDifference = BarrelRotator - AimAsRotator;
+	auto DeltaRot = AimAsRotator - BarrelRotator;
 	//Move Barrel To the desired Location
 
-	Barrel->Elevate(5);
+	//it would matter if it is gretare than +1 or -1
+	//it wll be clamped value greater than -1 will become -1
+	Barrel->Elevate(DeltaRot.Pitch);
+	// Fire when Ready 
+}
+
+void UTankAimingComponent::RotateBarrelTowards(FVector AimDirection)
+{
+	//Calculate Difference between current barrel rotation and AimDirection
+	auto BarrelRotator = Turret->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRot = AimAsRotator - BarrelRotator;
+	//Move Barrel To the desired Location
+
+	//it would matter if it is gretare than +1 or -1
+	//it wll be clamped value greater than -1 will become -1
+	Barrel->Elevate(DeltaRot.Pitch);
 	// Fire when Ready 
 }
