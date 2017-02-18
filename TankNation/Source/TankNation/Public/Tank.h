@@ -8,6 +8,7 @@
 
 class UTankBarrel;
 class UTankAimingComponent;
+class UTurret;
 
 UCLASS()
 class TANKNATION_API ATank : public APawn
@@ -20,8 +21,9 @@ public:
 	UFUNCTION(BlueprintCallable,Category = Setup)
 	void SetBarrelReference(UTankBarrel*BarrelToSet);
 
+	//Turret To Set
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTurretReference(UStaticMeshComponent*BarrelToSet);
+	void SetTurretReference(UTurret*TurretToSet);
 
 
 protected:

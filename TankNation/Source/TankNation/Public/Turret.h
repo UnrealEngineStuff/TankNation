@@ -13,7 +13,16 @@ class TANKNATION_API UTurret : public UStaticMeshComponent
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+public:
+
+	//-1 is Max download and +1 is max up Movement
+	void Azimuth(float RelativeSpeed);
+
+private:
+	//Maximum rotation speed of barrel
+	UPROPERTY(EditAnywhere, Category = Setup)
+		float MaxDegreesPerSecond = 5.f;
+
+
+
 };

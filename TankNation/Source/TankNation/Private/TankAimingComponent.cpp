@@ -2,6 +2,7 @@
 
 #include "TankNation.h"
 #include "TankBarrel.h"
+#include "Turret.h"
 #include "TankAimingComponent.h"
 
 
@@ -20,7 +21,7 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel*BarrelToSet)
 	Barrel = BarrelToSet;
 }
 
-void UTankAimingComponent::SetTurretReference(UStaticMeshComponent*TurretToSet)
+void UTankAimingComponent::SetTurretReference(UTurret*TurretToSet)
 {
 	Turret = TurretToSet;
 }
@@ -71,16 +72,16 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	// Fire when Ready 
 }
 
-void UTankAimingComponent::RotateBarrelTowards(FVector AimDirection)
+void UTankAimingComponent::RotateTurret(FVector AimDirection)
 {
 	//Calculate Difference between current barrel rotation and AimDirection
-	auto BarrelRotator = Turret->GetForwardVector().Rotation();
+	auto TurretRotator = Turret->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
-	auto DeltaRot = AimAsRotator - BarrelRotator;
+	auto DeltaRot = AimAsRotator - TurretRotator;
 	//Move Barrel To the desired Location
 
-	//it would matter if it is gretare than +1 or -1
+	//it would matter if it is greater than +1 or -1
 	//it wll be clamped value greater than -1 will become -1
-	Barrel->Elevate(DeltaRot.Pitch);
+	Turret->Azimuth(DeltaRot.Yaw);
 	// Fire when Ready 
 }

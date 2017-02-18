@@ -6,6 +6,8 @@
 #include "TankAimingComponent.generated.h"
 
 class UTankBarrel;
+class UTurret;
+
 //Process on Tank Barrel Useful for Aiming
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TANKNATION_API UTankAimingComponent : public UActorComponent
@@ -18,19 +20,18 @@ public:
 
 	void SetBarrelReference(UTankBarrel*BarrelToSet);
 
-	void SetTurretReference(UStaticMeshComponent*TurretToSet);
+	void SetTurretReference(UTurret*TurretToSet);
 
 	//Aim at Location
 	void AimAt(FVector HitLocation,float firingSpeed);
 
 private:
 	UTankBarrel *Barrel = nullptr;
-	UStaticMeshComponent *Turret = nullptr;
+	UTurret *Turret = nullptr;
 
 	//Move the Barrel at the given Direction
 	void MoveBarrelTowards(FVector AimDirection);
 
-	//Rotate the Barrel at the given Direction
-	void RotateBarrelTowards(FVector AimDirection);
-	
+	void RotateTurretTowards(FVector AimDirection);
+
 };
