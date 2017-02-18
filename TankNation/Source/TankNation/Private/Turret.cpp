@@ -10,11 +10,8 @@ void UTurret::Azimuth(float RelativeSpeed)
 	//Moving The barrel
 	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, 1);
 	auto AzimuthChange = RelativeSpeed*MaxDegreesPerSecond*GetWorld()->DeltaTimeSeconds;
-	UE_LOG(LogTemp, Warning, TEXT("This is Relative change %f "), AzimuthChange)
-	auto RawNewAzimuth = RelativeRotation.Yaw + AzimuthChange;
-
-	//auto ProcessedYaw = FMath::ClampAngle(RawNewAzimuth, 0,360);
-	SetRelativeRotation(FRotator(0,RawNewAzimuth,0));
+	auto Rotation = RelativeRotation.Yaw + AzimuthChange;
+	SetRelativeRotation(FRotator(0,Rotation,0));
 }
 
 

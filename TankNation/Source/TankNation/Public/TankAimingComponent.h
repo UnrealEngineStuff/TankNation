@@ -30,8 +30,7 @@ private:
 	UTurret *Turret = nullptr;
 
 	//Move the Barrel at the given Direction
+	//And also Rotates turret
 	void MoveBarrelTowards(FVector AimDirection);
-
-	void RotateTurretTowards(FVector AimDirection);
 
 };

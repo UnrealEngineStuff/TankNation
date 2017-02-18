@@ -29,6 +29,7 @@ void ATank::SetTurretReference(UTurret * TurretToSet)
 }
 
 
+
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
@@ -50,4 +51,9 @@ void ATank::AimAt(FVector HitLocation)
 	{
 		AimingComponent->AimAt(HitLocation,firingSpeed);
 	}
+}
+void ATank::Fire()
+{
+	auto Time = GetWorld()->GetTimeSeconds();
+	UE_LOG(LogTemp, Warning, TEXT("%f : Tank Firing on duty"), Time)
 }

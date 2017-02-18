@@ -16,7 +16,7 @@ class TANKNATION_API ATank : public APawn
 	GENERATED_BODY()
 
 public:
-	void AimAt(FVector HitLocation);
+
 
 	UFUNCTION(BlueprintCallable,Category = Setup)
 	void SetBarrelReference(UTankBarrel*BarrelToSet);
@@ -24,6 +24,13 @@ public:
 	//Turret To Set
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTurret*TurretToSet);
+
+	void AimAt(FVector HitLocation);
+
+	//Called when fire key is pressed
+	UFUNCTION(BlueprintCallable, Category = Firing)
+	void Fire();
+
 
 
 protected:
@@ -40,7 +47,7 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
 	UPROPERTY(EditAnywhere,Category = Firing)
-	float firingSpeed = 100000;
+	float firingSpeed = 8000;
 
 	
 	

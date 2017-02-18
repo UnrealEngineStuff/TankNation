@@ -11,7 +11,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 }
@@ -24,7 +24,7 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel*BarrelToSet)
 
 void UTankAimingComponent::SetTurretReference(UTurret*TurretToSet)
 {
-	if (Turret)
+	if (TurretToSet)
 	Turret = TurretToSet;
 }
 
@@ -55,14 +55,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation,float firingSpeed)
 	{
 		auto AimDirection = OutTossVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
-		RotateTurretTowards(AimDirection);
 		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f : Aim Solution found"), Time)
-	}
-	else
-	{
-		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Error, TEXT("%f : Aim Solution Not found"), Time)
 	}
 }
 
@@ -77,20 +70,6 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	//it would matter if it is gretare than +1 or -1
 	//it wll be clamped value greater than -1 will become -1
 	Barrel->Elevate(DeltaRot.Pitch);
+	Turret->Azimuth(DeltaRot.Yaw);
 	// Fire when Ready 
-}
-
-void UTankAimingComponent::RotateTurretTowards(FVector AimDirection)
-{
-
-		//Calculate Difference between current barrel rotation and AimDirection
-		auto TurretRotator = Turret->GetForwardVector().Rotation();
-		auto AimAsRotator = AimDirection.Rotation();
-		auto DeltaRot = AimAsRotator - TurretRotator;
-
-		//it would matter if it is greater than +1 or -1
-		//it wll be clamped value greater than -1 will become -1
-		Turret->Azimuth(DeltaRot.Yaw);
-		// Fire when Ready 
-	
 }

@@ -15,13 +15,13 @@ class TANKNATION_API UTurret : public UStaticMeshComponent
 	
 public:
 
-	//-1 is Max download and +1 is max up Movement
+	//-1 is Max download and +1 is max up Rotation
 	void Azimuth(float RelativeSpeed);
 
 private:
 	//Maximum rotation speed of barrel
 	UPROPERTY(EditAnywhere, Category = Setup)
-		float MaxDegreesPerSecond = 5.f;
+		float MaxDegreesPerSecond = 30.f;
 
 
 
