@@ -9,7 +9,6 @@
 class UTankBarrel;
 class UTankAimingComponent;
 class UTurret;
-
 UCLASS()
 class TANKNATION_API ATank : public APawn
 {

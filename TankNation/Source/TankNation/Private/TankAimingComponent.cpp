@@ -71,5 +71,5 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	//it wll be clamped value greater than -1 will become -1
 	Barrel->Elevate(DeltaRot.Pitch);
 	Turret->Azimuth(DeltaRot.Yaw);
-	// Fire when Ready 
+
 }
