@@ -16,6 +16,7 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	AimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+	
 
 }
 
@@ -39,7 +40,6 @@ void ATank::SetTurretReference(UTurret * TurretToSet)
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 
@@ -59,10 +59,14 @@ void ATank::AimAt(FVector HitLocation)
 }
 void ATank::Fire()
 {
-	auto Time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("%f : Tank Firing on duty"), Time);
+
     
 	if (!Barrel) return;
 	//Spawn a projectile at the location of socket
-	GetWorld()->SpawnActor<AProjectile>(projectile,Barrel->GetSocketLocation(FName("Projectile")),Barrel->GetSocketRotation(FName("Projectile")));
+	auto ProjectileObj = GetWorld()->SpawnActor<AProjectile>(
+						projectile,
+						Barrel->GetSocketLocation(FName("Projectile")),
+						Barrel->GetSocketRotation(FName("Projectile"))
+						);
+	ProjectileObj->LaunchProjectile(firingSpeed);
 }
