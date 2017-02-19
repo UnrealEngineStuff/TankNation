@@ -1,10 +1,11 @@
 // Tank Nation Game Develped By Freedom911.For Copyright ask the user MsFreedom911@gmail.com
 
 #include "TankNation.h"
-#include "TankBarrel.h"
-#include "Turret.h"
 #include "TankAimingComponent.h"
 #include "Tank.h"
+#include "Turret.h"
+#include "TankBarrel.h"
+#include "Projectile.h"
 
 
 
@@ -20,7 +21,11 @@ ATank::ATank()
 
 void ATank::SetBarrelReference(UTankBarrel * BarrelToSet)
 {
-	AimingComponent->SetBarrelReference(BarrelToSet);
+	if (BarrelToSet)
+	{
+		AimingComponent->SetBarrelReference(BarrelToSet);
+		Barrel = BarrelToSet;
+	}
 }
 
 void ATank::SetTurretReference(UTurret * TurretToSet)
@@ -55,5 +60,9 @@ void ATank::AimAt(FVector HitLocation)
 void ATank::Fire()
 {
 	auto Time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("%f : Tank Firing on duty"), Time)
+	UE_LOG(LogTemp, Warning, TEXT("%f : Tank Firing on duty"), Time);
+    
+	if (!Barrel) return;
+	//Spawn a projectile at the location of socket
+	GetWorld()->SpawnActor<AProjectile>(projectile,Barrel->GetSocketLocation(FName("Projectile")),Barrel->GetSocketRotation(FName("Projectile")));
 }

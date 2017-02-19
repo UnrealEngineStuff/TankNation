@@ -8,7 +8,7 @@
 /**
  * Tank Barrel /Gun 
  */
-UCLASS(meta = (BlueprintSpawnableComponent),hidecategories=("Collision","Lighting"))
+UCLASS(meta = (BlueprintSpawnableComponent))//,hidecategories=("Collision","Lighting"))
 class TANKNATION_API UTankBarrel : public UStaticMeshComponent
 {
 	GENERATED_BODY()

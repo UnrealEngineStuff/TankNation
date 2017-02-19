@@ -9,6 +9,8 @@
 class UTankBarrel;
 class UTankAimingComponent;
 class UTurret;
+class AProjectile;
+
 UCLASS()
 class TANKNATION_API ATank : public APawn
 {
@@ -48,6 +50,11 @@ private:
 	UPROPERTY(EditAnywhere,Category = Firing)
 	float firingSpeed = 8000;
 
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile> projectile;
+
+
+	UTankBarrel*Barrel = nullptr;
 	
 	
 };
