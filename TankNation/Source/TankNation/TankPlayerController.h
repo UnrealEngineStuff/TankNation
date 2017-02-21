@@ -58,16 +58,16 @@ private:
 	bool GetHitObjectLocation(FVector &LookDirection, FVector &HitDirection ) const;
 
 	//Location of Crosshair in X direction
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairXLocation = 0.5f;
 	
 	//Location of Cross hair in Y direction
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairYLocation = 0.33333f;
 
 
 	//Location of Cross hair in Y direction
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000.f;
 
 	

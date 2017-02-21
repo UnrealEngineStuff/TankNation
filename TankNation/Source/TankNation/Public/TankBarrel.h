@@ -24,11 +24,11 @@ private:
 	float MaxDegreesPerSecond = 20.f;
 
 	//Maximum Elevation of barrel
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	float MaxElevationDegrees = 40.f;
 	
 	//Minimum Elevation of barrel
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
     float MinElevationDegrees = 0.f;
 
 	

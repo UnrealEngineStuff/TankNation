@@ -8,42 +8,25 @@
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-	auto*TankAI = GetControlledTank();
-	if (!TankAI)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Cannot Find Tank possessed by TankAIController"))
-	}
+	PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	AITank = Cast<ATank>(GetPawn());
 
-	auto *TankPlayer = GetPlayerControlledTank();
-	if (!TankPlayer)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Cannot Find Tank possessed by TankPlayer Controller Which is to be seen by TankAIController"))
-	}
 }
 
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (GetPlayerControlledTank())
+	
+	
+	if (AITank)
 	{
 		//TODO move Towards the player
-		if (GetControlledTank())
+		if (PlayerTank)
 		{
 			//Aim towards the player
-			GetControlledTank()->AimAt(GetPlayerControlledTank()->GetActorLocation());
-
+			AITank->AimAt(PlayerTank->GetActorLocation());
 			//Fire if Ready
+			AITank->Fire();
 		}
 	}
-}
-
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
-ATank* ATankAIController::GetPlayerControlledTank() const
-{
-	return Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
-
 }

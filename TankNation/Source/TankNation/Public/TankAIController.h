@@ -16,24 +16,15 @@ class TANKNATION_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 
+
 private:	
 
 		virtual void BeginPlay() override;
 
 		virtual void Tick(float DeltaTime) override;
 
-		//************************************
-		// Returns:   ATank* (Returns Tank as an Actor That is possessed my TankAIController  
-		// Qualifier: const
-		//************************************
-		ATank* GetControlledTank() const;
-
-
-		//************************************
-		// Returns:   ATank*(Returns Player Tank )
-		// Qualifier: const
-		//************************************
-		ATank* GetPlayerControlledTank() const;
+		ATank*PlayerTank;
+		ATank*AITank;
 
 
 	

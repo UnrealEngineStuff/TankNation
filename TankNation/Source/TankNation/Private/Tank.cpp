@@ -3,10 +3,10 @@
 #include "TankNation.h"
 #include "TankAimingComponent.h"
 #include "Tank.h"
+#include "TankTrack.h"
 #include "Turret.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
-
 
 
 // Sets default values
@@ -34,6 +34,23 @@ void ATank::SetTurretReference(UTurret * TurretToSet)
 	AimingComponent->SetTurretReference(TurretToSet);
 }
 
+void ATank::SetLeftTrackReference(UTankTrack * LeftTrackToSet)
+{
+	if (LeftTrackToSet)
+	{
+		LeftTrack = LeftTrackToSet;
+	}
+}
+
+void ATank::SetRightTrackReference(UTankTrack * RightTrackToSet)
+{
+	if (RightTrackToSet)
+	{
+		RightTrack = RightTrackToSet;
+	}
+}
+
+
 
 
 // Called when the game starts or when spawned
@@ -59,14 +76,17 @@ void ATank::AimAt(FVector HitLocation)
 }
 void ATank::Fire()
 {
-
-    
-	if (!Barrel) return;
-	//Spawn a projectile at the location of socket
-	auto ProjectileObj = GetWorld()->SpawnActor<AProjectile>(
-						projectile,
-						Barrel->GetSocketLocation(FName("Projectile")),
-						Barrel->GetSocketRotation(FName("Projectile"))
-						);
-	ProjectileObj->LaunchProjectile(firingSpeed);
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+	if (Barrel && isReloaded)
+	{
+		//Spawn a projectile at the location of socket
+		auto ProjectileObj = GetWorld()->SpawnActor<AProjectile>(
+																projectile,
+																Barrel->GetSocketLocation(FName("Projectile")),
+																Barrel->GetSocketRotation(FName("Projectile"))
+																);
+		ProjectileObj->LaunchProjectile(firingSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+	}
 }
+
