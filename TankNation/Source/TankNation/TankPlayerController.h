@@ -20,7 +20,7 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
-	ATank* GetControlledTank() const;
+
 
 
 	//************************************
@@ -30,7 +30,12 @@ public:
 	//************************************
 	void AimAtCrossover();
 
+protected:
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	ATank* GetControlledTank() const;
+
 private:
+
 	//************************************
 	// Note:      Function updates HitLocation .The location at which crosshair
 	//            is aiming.If it hits Nothing like sky then function returns false

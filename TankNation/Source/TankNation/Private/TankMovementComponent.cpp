@@ -23,9 +23,12 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	//No Need to call super as we are replacing  code
 	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
 	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
+	
 	auto MoveVector = FVector::DotProduct(TankForward,AIForwardIntention);
 	IntendMoveForward(MoveVector);
-	//UE_LOG(LogTemp,Warning,TEXT("Tank Name :%s moving with velocity %s"),*GetOwner()->GetName(),*MoveVelocity.GetSafeNormal().ToCompactString())
+
+	auto RotateVector = FVector::CrossProduct(TankForward,AIForwardIntention);
+	IntendMoveRight(RotateVector.Z);
 }
 
 void UTankMovementComponent::IntendMoveForward(float Value)
@@ -33,7 +36,6 @@ void UTankMovementComponent::IntendMoveForward(float Value)
 
 	if (!LeftTrack || !RightTrack)
 		return;
-
 	LeftTrack->SetThrottle(Value);
 	RightTrack->SetThrottle(Value);
 
@@ -43,7 +45,6 @@ void UTankMovementComponent::IntendMoveRight(float Value)
 {
 	if (!LeftTrack || !RightTrack)
 		return;
-
 	LeftTrack->SetThrottle(Value);
 	RightTrack->SetThrottle(-Value);
 

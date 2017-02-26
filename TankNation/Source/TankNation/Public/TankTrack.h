@@ -16,11 +16,11 @@ class TANKNATION_API UTankTrack : public UStaticMeshComponent
 	
 public:
 	//Sets Throttle -1 ,+ 1
-	UFUNCTION(BlueprintCallable,Category = Input)
+	UFUNCTION(BlueprintCallable, Category = Movement)
 	void SetThrottle(float Value);
    
 	//Maximum Force Per Track
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere,Category = Movement)
 	float MaxForcePerTrack = 400000;  // Mass x Acceleration
 	
 	

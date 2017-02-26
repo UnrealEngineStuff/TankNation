@@ -38,6 +38,7 @@ public:
 
 
 protected:
+	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent *AimingComponent=nullptr;
 
 
