@@ -2,6 +2,7 @@
 
 #include "TankNation.h"
 #include "TankAimingComponent.h"
+#include "TankMovementComponent.h"
 #include "Tank.h"
 #include "TankTrack.h"
 #include "Turret.h"
@@ -16,7 +17,6 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	AimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
-	
 
 }
 
@@ -34,21 +34,6 @@ void ATank::SetTurretReference(UTurret * TurretToSet)
 	AimingComponent->SetTurretReference(TurretToSet);
 }
 
-void ATank::SetLeftTrackReference(UTankTrack * LeftTrackToSet)
-{
-	if (LeftTrackToSet)
-	{
-		LeftTrack = LeftTrackToSet;
-	}
-}
-
-void ATank::SetRightTrackReference(UTankTrack * RightTrackToSet)
-{
-	if (RightTrackToSet)
-	{
-		RightTrack = RightTrackToSet;
-	}
-}
 
 
 
@@ -88,5 +73,7 @@ void ATank::Fire()
 		ProjectileObj->LaunchProjectile(firingSpeed);
 		LastFireTime = FPlatformTime::Seconds();
 	}
+	
+	
 }
 

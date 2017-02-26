@@ -26,7 +26,8 @@ private:
 		ATank*PlayerTank;
 		ATank*AITank;
 
-
+		UPROPERTY(EditAnywhere,Category = AI)
+		float AcceptanceRadius=1000.f;
 	
 
 

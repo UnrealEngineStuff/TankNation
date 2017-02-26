@@ -18,6 +18,10 @@ public:
 	//Sets Throttle -1 ,+ 1
 	UFUNCTION(BlueprintCallable,Category = Input)
 	void SetThrottle(float Value);
+   
+	//Maximum Force Per Track
+	UPROPERTY(EditAnywhere)
+	float MaxForcePerTrack = 400000;  // Mass x Acceleration
 	
 	
 };

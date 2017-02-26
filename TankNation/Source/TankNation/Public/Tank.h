@@ -29,14 +29,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTurret*TurretToSet);
 
-	//Turret To Set
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetLeftTrackReference(UTankTrack * LeftTrackToSet);
-
-	//Turret To Set
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetRightTrackReference(UTankTrack * LeftTrackToSet);
-
 	void AimAt(FVector HitLocation);
 
 	//Called when fire key is pressed
@@ -47,6 +39,7 @@ public:
 
 protected:
 	UTankAimingComponent *AimingComponent=nullptr;
+
 
 private:
 	// Sets default values for this pawn's properties
@@ -66,8 +59,7 @@ private:
 	TSubclassOf<AProjectile> projectile;
 
 	UTankBarrel*Barrel = nullptr;
-	UTankTrack*LeftTrack = nullptr;
-	UTankTrack*RightTrack = nullptr;
+
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float ReloadTimeInSeconds = 0.5f;
