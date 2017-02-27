@@ -5,6 +5,17 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+
+//Enum for firing State
+UENUM()  //this enables UE4 header tool to know its enum and if wanted we can display in editor
+enum class EFiringState :uint8
+{
+	Reloading,
+	Aiming,
+	Locked
+	
+};
+
 class UTankBarrel;
 class UTurret;
 
@@ -24,6 +35,10 @@ public:
 
 	//Aim at Location
 	void AimAt(FVector HitLocation,float firingSpeed);
+
+protected:
+	UPROPERTY(BlueprintReadOnly, Category = "Setup")
+	EFiringState CurrentFiringState;
 
 private:
 	UTankBarrel *Barrel = nullptr;

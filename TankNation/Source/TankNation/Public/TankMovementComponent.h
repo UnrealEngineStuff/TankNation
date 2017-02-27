@@ -17,14 +17,14 @@ class TANKNATION_API UTankMovementComponent : public UNavMovementComponent
 	
 public:
 
-	UFUNCTION(BlueprintCallable,Category = Movement)
+	UFUNCTION(BlueprintCallable,Category = "Movement")
 	void IntendMoveForward(float Value);
 
-	UFUNCTION(BlueprintCallable, Category = Movement)
+	UFUNCTION(BlueprintCallable, Category = "Movement")
     void IntendMoveRight(float Value);
 	
 	//Tracks To Set
-	UFUNCTION(BlueprintCallable, Category = Setup)
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialize(UTankTrack * LeftTrack, UTankTrack * RightTrack);
 
 private:

@@ -22,17 +22,17 @@ class TANKNATION_API ATank : public APawn
 public:
 
 
-	UFUNCTION(BlueprintCallable,Category = Setup)
+	UFUNCTION(BlueprintCallable,Category = "Setup")
 	void SetBarrelReference(UTankBarrel*BarrelToSet);
 
 	//Turret To Set
-	UFUNCTION(BlueprintCallable, Category = Setup)
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetTurretReference(UTurret*TurretToSet);
 
 	void AimAt(FVector HitLocation);
 
 	//Called when fire key is pressed
-	UFUNCTION(BlueprintCallable, Category = Firing)
+	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
 
 
@@ -53,16 +53,16 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
 
-	UPROPERTY(EditAnywhere,Category = Firing)
+	UPROPERTY(EditAnywhere,Category = "Firing")
 	float firingSpeed = 8000;
 
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> projectile;
 
 	UTankBarrel*Barrel = nullptr;
 
 
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditAnywhere, Category = "Firing")
 	float ReloadTimeInSeconds = 0.5f;
 
 	float LastFireTime = 0;
