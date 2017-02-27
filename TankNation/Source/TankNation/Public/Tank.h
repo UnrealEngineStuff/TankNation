@@ -22,13 +22,6 @@ class TANKNATION_API ATank : public APawn
 public:
 
 
-	UFUNCTION(BlueprintCallable,Category = "Setup")
-	void SetBarrelReference(UTankBarrel*BarrelToSet);
-
-	//Turret To Set
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetTurretReference(UTurret*TurretToSet);
-
 	void AimAt(FVector HitLocation);
 
 	//Called when fire key is pressed
@@ -38,9 +31,6 @@ public:
 
 
 protected:
-	UPROPERTY(BlueprintReadOnly)
-	UTankAimingComponent *AimingComponent=nullptr;
-
 
 private:
 	// Sets default values for this pawn's properties
