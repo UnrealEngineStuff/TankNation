@@ -15,6 +15,8 @@ ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
+	auto Name = GetName();
+	UE_LOG(LogTemp,Warning,TEXT(" %s Creed: In Tank constructor"),*Name)
 
 }
 
@@ -22,31 +24,25 @@ ATank::ATank()
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
-	Super::BeginPlay();
+	auto Name = GetName();
+	UE_LOG(LogTemp, Warning, TEXT(" %s Creed: In Tank BeginPlay"), *Name)
+	Super::BeginPlay(); // If we donont called Begin Play then BeginPlay of Blueprint 
+	                    //will not be called
 }
 
 
-// Called to bind functionality to input
-void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
-{
-	Super::SetupPlayerInputComponent(InputComponent);
-
-}
 
 void ATank::AimAt(FVector HitLocation)
 {
-	TSubclassOf<UTankAimingComponent>AimingComponent;
-	GetComponentByClass(AimingComponent);
-	auto AimComponentObj = Cast<UTankAimingComponent>(AimingComponent);
-	if (AimComponentObj)
-	{
-		AimComponentObj->AimAt(HitLocation,firingSpeed);
-	}
+	if (!ensure(AimingComponent)) return;
+		AimingComponent->AimAt(HitLocation, firingSpeed);
+
 }
 void ATank::Fire()
 {
+	if (!ensure(Barrel)) return;
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (Barrel && isReloaded)
+	if (isReloaded)
 	{
 		//Spawn a projectile at the location of socket
 		auto ProjectileObj = GetWorld()->SpawnActor<AProjectile>(

@@ -6,9 +6,10 @@
 #include "TankPlayerController.generated.h"
 
 /**
- * 
+ * Responsible for making how player's aim
  */
 class ATank;
+class UTankAimingComponent;
 
 UCLASS()
 class TANKNATION_API ATankPlayerController : public APlayerController
@@ -33,6 +34,9 @@ public:
 protected:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	ATank* GetControlledTank() const;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+		void FoundAimingComponent(UTankAimingComponent *AimComponenetRef);
 
 private:
 

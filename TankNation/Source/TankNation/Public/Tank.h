@@ -31,6 +31,9 @@ public:
 
 
 protected:
+	 
+	UPROPERTY(BlueprintReadOnly, Category = "Setup")
+	UTankAimingComponent*AimingComponent = nullptr;
 
 private:
 	// Sets default values for this pawn's properties
@@ -38,10 +41,6 @@ private:
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
-
 
 	UPROPERTY(EditAnywhere,Category = "Firing")
 	float firingSpeed = 8000;
