@@ -41,12 +41,15 @@ private:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	//TODO remove from here
 	UPROPERTY(EditAnywhere,Category = "Firing")
 	float firingSpeed = 8000;
 
+	//TODO remove from here
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> projectile;
 
+	//TODO remove from here and Move to Aiming COmponenet
 	UTankBarrel*Barrel = nullptr;
 
 

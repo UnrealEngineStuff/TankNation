@@ -13,8 +13,7 @@ ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-	auto Name = GetName();
-	UE_LOG(LogTemp,Warning,TEXT(" %s Creed: In Tank constructor"),*Name)
+
 
 }
 
@@ -22,20 +21,23 @@ ATank::ATank()
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
-	auto Name = GetName();
-	UE_LOG(LogTemp, Warning, TEXT(" %s Creed: In Tank BeginPlay"), *Name)
 	Super::BeginPlay(); // If we donont called Begin Play then BeginPlay of Blueprint 
 	                    //will not be called
+	AimingComponent = FindComponentByClass<UTankAimingComponent>();
 }
 
 
-
+//TODO We dont need this
+//Remove and move to Aiming Componenet
 void ATank::AimAt(FVector HitLocation)
 {
 	if (!ensure(AimingComponent)) return;
-		AimingComponent->AimAt(HitLocation, firingSpeed);
-
+	
+	AimingComponent->AimAt(HitLocation, firingSpeed);
 }
+
+//TODO We dont need this
+//Remove and move to Aiming Componenet
 void ATank::Fire()
 {
 	if (!ensure(Barrel)) return;
