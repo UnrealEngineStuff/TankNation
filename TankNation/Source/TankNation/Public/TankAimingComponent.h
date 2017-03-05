@@ -21,6 +21,7 @@ enum class EFiringState :uint8
 //Forward Declarations
 class UTankBarrel;
 class UTurret;
+class AProjectile;
 
 //Process on Tank Barrel Useful for Aiming
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -34,6 +35,11 @@ public:
 	
 	//Aim at Location
 	void AimAt(FVector HitLocation);
+	
+	//Called when fire key is pressed
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	void Fire();
+
 
 	//INitialize Gun and Turret
 	UFUNCTION(BlueprintCallable, Category = "Setup")
@@ -53,7 +59,15 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Firing")
 	float firingSpeed = 8000.f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<AProjectile> projectile;
+
+	UPROPERTY(EditAnywhere, Category = "Firing")
+	float ReloadTimeInSeconds = 0.5f;
+
 	UTankBarrel *Barrel = nullptr;
 	UTurret *Turret = nullptr;
+
+	float LastFireTime = 0;
 
 };

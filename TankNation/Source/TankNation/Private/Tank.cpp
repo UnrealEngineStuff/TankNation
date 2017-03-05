@@ -2,8 +2,6 @@
 
 #include "TankNation.h"
 #include "Tank.h"
-#include "TankBarrel.h"
-#include "Projectile.h"
 
 
 // Sets default values
@@ -22,23 +20,5 @@ void ATank::BeginPlay()
 }
 
 
-//TODO We dont need this
-//Remove and move to Aiming Componenet
-void ATank::Fire()
-{
-	if (!ensure(Barrel)) return;
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (isReloaded)
-	{
-		//Spawn a projectile at the location of socket
-		auto ProjectileObj = GetWorld()->SpawnActor<AProjectile>(
-																projectile,
-																Barrel->GetSocketLocation(FName("Projectile")),
-																Barrel->GetSocketRotation(FName("Projectile"))
-																);
-		ProjectileObj->LaunchProjectile(firingSpeed);
-		LastFireTime = FPlatformTime::Seconds();
-	}
-	
-}
+
 

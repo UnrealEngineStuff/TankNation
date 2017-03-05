@@ -1,8 +1,9 @@
-// Tank Nation Game Developed By Freedom911.For Copyright ask the user MsFreedom911@gmail.com
+ // Tank Nation Game Developed By Freedom911.For Copyright ask the user MsFreedom911@gmail.com
 
 #include "TankNation.h"
 #include "TankBarrel.h"
 #include "Turret.h"
+#include "Projectile.h"
 #include "TankAimingComponent.h"
 
 
@@ -56,5 +57,24 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	//it wll be clamped value greater than -1 will become -1
 	Barrel->Elevate(DeltaRot.Pitch);
 	Turret->Azimuth(DeltaRot.Yaw);
+
+}
+
+
+void UTankAimingComponent::Fire()
+{
+	if (!ensure(Barrel&&projectile)) return;
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+	if (isReloaded)
+	{
+		//Spawn a projectile at the location of socket
+		auto ProjectileObj = GetWorld()->SpawnActor<AProjectile>(
+			projectile,
+			Barrel->GetSocketLocation(FName("Projectile")),
+			Barrel->GetSocketRotation(FName("Projectile"))
+			);
+		ProjectileObj->LaunchProjectile(firingSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+	}
 
 }
