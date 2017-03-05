@@ -7,15 +7,18 @@
 
 
 //Enum for firing State
-UENUM()  //this enables UE4 header tool to know its enum and if wanted we can display in editor
+//this enables UE4 header tool to know its enum 
+//and if wanted we can display in editor
+
+UENUM()  
 enum class EFiringState :uint8
 {
 	Reloading,
 	Aiming,
 	Locked
-	
 };
 
+//Forward Declarations
 class UTankBarrel;
 class UTurret;
 
@@ -28,24 +31,29 @@ class TANKNATION_API UTankAimingComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UTankAimingComponent();
-
+	
 	//Aim at Location
-	void AimAt(FVector HitLocation,float firingSpeed);
+	void AimAt(FVector HitLocation);
 
 	//INitialize Gun and Turret
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void InitializeAiming(UTurret * Turret, UTankBarrel * Gun);
 
 protected:
+	//Stores Current Firing state used by BP
 	UPROPERTY(BlueprintReadOnly, Category = "Setup")
 	EFiringState CurrentFiringState;
 
 private:
-	UTankBarrel *Barrel = nullptr;
-	UTurret *Turret = nullptr;
-
 	//Move the Barrel at the given Direction
 	//And also Rotates turret
 	void MoveBarrelTowards(FVector AimDirection);
+	
+    //Launch Speed of projectile
+	UPROPERTY(EditAnywhere, Category = "Firing")
+	float firingSpeed = 8000.f;
+
+	UTankBarrel *Barrel = nullptr;
+	UTurret *Turret = nullptr;
 
 };

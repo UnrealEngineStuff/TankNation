@@ -7,8 +7,6 @@
 #include "Tank.generated.h"    //No include below this 
 
 
-class UTankAimingComponent;
-class UTankTrack;
 class UTankBarrel;
 class AProjectile;
 
@@ -30,9 +28,7 @@ public:
 
 
 protected:
-	 
-	UPROPERTY(BlueprintReadOnly, Category = "Setup")
-	UTankAimingComponent*AimingComponent = nullptr;
+
 
 private:
 	// Sets default values for this pawn's properties

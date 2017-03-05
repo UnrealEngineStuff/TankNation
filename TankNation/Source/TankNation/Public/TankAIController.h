@@ -9,7 +9,6 @@
 /**
  * 
  */
-class ATank;
 
 UCLASS()
 class TANKNATION_API ATankAIController : public AAIController
@@ -23,12 +22,9 @@ private:
 
 		virtual void Tick(float DeltaTime) override;
 
-		ATank*PlayerTank;
-		ATank*AITank;
 
 		UPROPERTY(EditAnywhere,Category = "AI")
 		float AcceptanceRadius=1000.f;
 	
-
 
 };

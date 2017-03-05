@@ -1,4 +1,4 @@
-// Tank Nation Game Develped By Freedom911.For Copyright ask the user MsFreedom911@gmail.com
+// Tank Nation Game Developed By Freedom911.For Copyright ask the user MsFreedom911@gmail.com
 
 #include "TankNation.h"
 #include "TankBarrel.h"
@@ -9,12 +9,9 @@
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 	CurrentFiringState = EFiringState::Aiming;
 
-	// ...
 }
 
 void UTankAimingComponent::InitializeAiming(UTurret * TurretToSet, UTankBarrel * Gun)
@@ -23,9 +20,10 @@ void UTankAimingComponent::InitializeAiming(UTurret * TurretToSet, UTankBarrel *
 	Turret = TurretToSet;
 }
 
-void UTankAimingComponent::AimAt(FVector HitLocation,float firingSpeed)
+void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!ensure(Barrel) || !ensure(Turret)) return;
+
 	FVector OutTossVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 
@@ -35,6 +33,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation,float firingSpeed)
 		HitLocation, firingSpeed,false,0,0,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	);
+
 	if(bHaveAimSolution)
 	{
 		auto AimDirection = OutTossVelocity.GetSafeNormal();

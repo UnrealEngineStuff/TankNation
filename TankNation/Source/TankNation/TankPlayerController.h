@@ -8,7 +8,6 @@
 /**
  * Responsible for making how player's aim
  */
-class ATank;
 class UTankAimingComponent;
 
 UCLASS()
@@ -32,11 +31,9 @@ public:
 	void AimAtCrossover();
 
 protected:
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank* GetControlledTank() const;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
-		void FoundAimingComponent(UTankAimingComponent *AimComponenetRef);
+	void FoundAimingComponent(UTankAimingComponent *AimComponenetRef);
 
 private:
 
@@ -78,6 +75,8 @@ private:
 	//Location of Cross hair in Y direction
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000.f;
+
+	UTankAimingComponent *AimingComponent;
 
 	
 	

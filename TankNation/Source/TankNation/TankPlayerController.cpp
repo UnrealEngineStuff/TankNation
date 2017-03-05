@@ -3,7 +3,6 @@
 
 
 #include "TankNation.h"
-#include "Tank.h"
 #include "TankPlayerController.h"
 #include "TankAimingComponent.h"
 
@@ -11,24 +10,10 @@
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	auto*ControlledTank = GetControlledTank();
+	auto*ControlledTank = GetPawn();
 
-	if (!ControlledTank)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Cannot Find Tank possessed by TankPlayerController"))
-	}
-	else
-	{
-		auto AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
-		if (AimingComponent)
-		{
-			FoundAimingComponent(AimingComponent);
-		}
-		else
-		{
-			UE_LOG(LogTemp,Error,TEXT("Cannot Find Tank's Aiming Component"))
-		}
-	}
+	AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
+
 
 }
 
@@ -40,22 +25,17 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 }
 
-ATank* ATankPlayerController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
 void ATankPlayerController::AimAtCrossover()
 {
 	//If we Didn't Got a Tank THen Return
-	if (!ensure(GetControlledTank())) { return; }
+	if (!ensure(GetPawn())) { return; }
 
 	FVector HitLocation(0,0,0);
 
 	//Get POsition of any object that is in direction of Tank Crossover
 	if (GetObjectHitLocation(HitLocation))
 	{
-		GetControlledTank()->AimAt(HitLocation);
+		AimingComponent->AimAt(HitLocation);
 	}
 
 
