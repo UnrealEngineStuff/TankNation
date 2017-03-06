@@ -10,11 +10,22 @@
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
 {
-	PrimaryComponentTick.bCanEverTick = false;
-	CurrentFiringState = EFiringState::Aiming;
+	PrimaryComponentTick.bCanEverTick = true;
+	CurrentFiringState = EFiringState::Reloading;
 
 }
 
+void UTankAimingComponent::BeginPlay()
+{
+	LastFireTime = FPlatformTime::Seconds();
+}
+void UTankAimingComponent::TickComponent(float DeltaTime,
+	                                     enum ELevelTick TickType,
+										 FActorComponentTickFunction *ThisTickFunction)
+{
+	if ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds)
+		CurrentFiringState = EFiringState::Reloading;
+}
 void UTankAimingComponent::InitializeAiming(UTurret * TurretToSet, UTankBarrel * Gun)
 {
 	Barrel = Gun;
@@ -63,10 +74,11 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UTankAimingComponent::Fire()
 {
-	if (!ensure(Barrel&&projectile)) return;
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (isReloaded)
+
+	if (CurrentFiringState != EFiringState::Reloading)
 	{
+		if (!ensure(Barrel)) return;
+		if (!ensure(projectile)) return;
 		//Spawn a projectile at the location of socket
 		auto ProjectileObj = GetWorld()->SpawnActor<AProjectile>(
 			projectile,

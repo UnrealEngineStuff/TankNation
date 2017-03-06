@@ -54,6 +54,9 @@ private:
 	//Move the Barrel at the given Direction
 	//And also Rotates turret
 	void MoveBarrelTowards(FVector AimDirection);
+
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+	virtual void BeginPlay() override;
 	
     //Launch Speed of projectile
 	UPROPERTY(EditAnywhere, Category = "Firing")
