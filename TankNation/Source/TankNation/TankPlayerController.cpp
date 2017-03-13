@@ -31,12 +31,13 @@ void ATankPlayerController::Tick(float DeltaTime)
 void ATankPlayerController::AimAtCrossover()
 {
 	//If we Didn't Got a Tank THen Return
-	if (!ensure(GetPawn())) { return; }
+	if (!GetPawn()) { return; }
 
 	FVector HitLocation(0,0,0);
-
+	bool bGotHitLocation = GetObjectHitLocation(HitLocation);
+	//UE_LOG(LogTemp,Warning,TEXT("Yes I hit something %i"),bGotHitLocation)
 	//Get POsition of any object that is in direction of Tank Crossover
-	if (GetObjectHitLocation(HitLocation))
+	if (bGotHitLocation)
 	{
 		AimingComponent->AimAt(HitLocation);
 	}

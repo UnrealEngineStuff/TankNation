@@ -53,9 +53,18 @@ protected:
 private:
 	//Move the Barrel at the given Direction
 	//And also Rotates turret
-	void MoveBarrelTowards(FVector AimDirection);
+	void MoveBarrelTowards();
 
-	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+	virtual void TickComponent(float DeltaTime, 
+		                       enum ELevelTick TickType, 
+		                       FActorComponentTickFunction *ThisTickFunction) override;
+
+	//returns true if the barrel is moving 
+	//compares the barrel/Gun forward vector
+	bool IsBarrelMoving();
+
+	FVector CurrentAimDirection;
+
 	virtual void BeginPlay() override;
 	
     //Launch Speed of projectile

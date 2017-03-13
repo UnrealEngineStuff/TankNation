@@ -16,7 +16,8 @@ ATank::ATank()
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
-	Super::BeginPlay(); // If we donont called Begin Play then BeginPlay of Blueprint                     //will not be called
+	Super::BeginPlay(); // If we donont called Begin Play then BeginPlay of Blueprint   
+						//will not be called
 }
 
 
