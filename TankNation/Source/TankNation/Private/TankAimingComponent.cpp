@@ -38,6 +38,11 @@ void UTankAimingComponent::InitializeAiming(UTurret * TurretToSet, UTankBarrel *
 	Turret = TurretToSet;
 }
 
+EFiringState UTankAimingComponent::GetCurrentState() const
+{
+	return CurrentFiringState;
+}
+
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!ensure(Barrel) || !ensure(Turret)) return;
@@ -63,7 +68,8 @@ bool UTankAimingComponent::IsBarrelMoving()
 {
 	if (!ensure(Barrel)) { return false; }
 	auto forwardVector = Barrel->GetForwardVector().GetSafeNormal();
-	return !forwardVector.Equals(CurrentAimDirection,0.01);
+	UE_LOG(LogTemp, Warning, TEXT("IsBarrelMoving Forward Vector :%s  CurrentAimDirection :%s"), *forwardVector.ToString(), *CurrentAimDirection.ToString());
+	return !forwardVector.Equals(CurrentAimDirection,0.001);
 }
 void UTankAimingComponent::MoveBarrelTowards()
 {

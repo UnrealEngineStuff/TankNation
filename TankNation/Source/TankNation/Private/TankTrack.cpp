@@ -20,7 +20,6 @@ void UTankTrack::OnHit(UPrimitiveComponent*HitComponent, AActor* OtherActor,
 	const FHitResult&Hit)
 {
    auto Time = GetWorld()->GetTimeSeconds();
-  // UE_LOG(LogTemp, Warning, TEXT("%s : %f Generated hit event "), *(GetOwner()->GetName()), Time)
 	DriveTrack();
 	ApplySideWaysForce();
 	CurrentThrottle = 0.f;

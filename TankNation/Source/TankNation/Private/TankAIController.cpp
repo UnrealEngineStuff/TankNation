@@ -23,10 +23,11 @@ void ATankAIController::Tick(float DeltaTime)
 
 	MoveToActor(PlayerTank, AcceptanceRadius);
 	//Aim towards the player
-	UTankAimingComponent *AimingComponent  = AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	UTankAimingComponent *AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) return;
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
-	//Fire if Ready
+	//Fire only when locked
+	if(AimingComponent->GetCurrentState() == EFiringState::Locked)
 	AimingComponent->Fire();
 		
 }

@@ -45,6 +45,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void InitializeAiming(UTurret * Turret, UTankBarrel * Gun);
 
+	EFiringState GetCurrentState() const;
+
 protected:
 	//Stores Current Firing state used by BP
 	UPROPERTY(BlueprintReadOnly, Category = "Setup")

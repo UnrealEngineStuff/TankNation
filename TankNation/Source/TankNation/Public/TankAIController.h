@@ -15,16 +15,14 @@ class TANKNATION_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 
+protected:
+	UPROPERTY(EditDefaultsOnly, Category = "AI")
+	float AcceptanceRadius = 8000.f;
 
 private:	
 
 		virtual void BeginPlay() override;
 
-		virtual void Tick(float DeltaTime) override;
-
-
-		UPROPERTY(EditAnywhere,Category = "AI")
-		float AcceptanceRadius=1000.f;
-	
+		virtual void Tick(float DeltaTime) override;	
 
 };
