@@ -15,7 +15,8 @@ enum class EFiringState :uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	OutOfAmmo
 };
 
 //Forward Declarations
@@ -46,6 +47,9 @@ public:
 	void InitializeAiming(UTurret * Turret, UTankBarrel * Gun);
 
 	EFiringState GetCurrentState() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	int GetFiringCount() const;
 
 protected:
 	//Stores Current Firing state used by BP
@@ -83,5 +87,7 @@ private:
 	UTurret *Turret = nullptr;
 
 	float LastFireTime = 0;
+
+	int firingLeft = 3;
 
 };

@@ -21,7 +21,7 @@ void UTankTrack::OnHit(UPrimitiveComponent*HitComponent, AActor* OtherActor,
 {
    auto Time = GetWorld()->GetTimeSeconds();
 	DriveTrack();
-	ApplySideWaysForce();
+//	ApplySideWaysForce();
 	CurrentThrottle = 0.f;
 }
 

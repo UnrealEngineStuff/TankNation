@@ -23,7 +23,10 @@ void UTankAimingComponent::TickComponent(float DeltaTime,
 	                                     enum ELevelTick TickType,
 										 FActorComponentTickFunction *ThisTickFunction)
 {
-	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
+	if (firingLeft <= 0)
+		CurrentFiringState = EFiringState::OutOfAmmo;
+
+	else if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
 		CurrentFiringState = EFiringState::Reloading;
 	else if (IsBarrelMoving())
 	{
@@ -31,6 +34,10 @@ void UTankAimingComponent::TickComponent(float DeltaTime,
 	}
 	else
 		CurrentFiringState = EFiringState::Locked;
+}
+int UTankAimingComponent::GetFiringCount() const
+{
+	return firingLeft;
 }
 void UTankAimingComponent::InitializeAiming(UTurret * TurretToSet, UTankBarrel * Gun)
 {
@@ -68,7 +75,6 @@ bool UTankAimingComponent::IsBarrelMoving()
 {
 	if (!ensure(Barrel)) { return false; }
 	auto forwardVector = Barrel->GetForwardVector().GetSafeNormal();
-	UE_LOG(LogTemp, Warning, TEXT("IsBarrelMoving Forward Vector :%s  CurrentAimDirection :%s"), *forwardVector.ToString(), *CurrentAimDirection.ToString());
 	return !forwardVector.Equals(CurrentAimDirection,0.001);
 }
 void UTankAimingComponent::MoveBarrelTowards()
@@ -85,23 +91,16 @@ void UTankAimingComponent::MoveBarrelTowards()
 	//it wll be clamped value greater than -1 will become -1
 	Barrel->Elevate(DeltaRot.Pitch);
 
+	
 	//TODO make sure that it takes smallest route
 	if (FMath::Abs(DeltaRot.Yaw) > 180.f)
 	{
-		if (DeltaRot.Yaw > 180.f)
-		{
-			DeltaRot.Yaw = 180.f - (DeltaRot.Yaw);
-		}
-		else
-		{
-			DeltaRot.Yaw =  180 + DeltaRot.Yaw;
-			DeltaRot.Yaw = FMath::Abs(DeltaRot.Yaw);
-		}
+		Turret->Azimuth(-DeltaRot.Yaw);
 	}
-
-
-	Turret->Azimuth(DeltaRot.Yaw);
-
+	else
+	{
+		Turret->Azimuth(DeltaRot.Yaw);
+	}
 
 }
 
@@ -109,10 +108,12 @@ void UTankAimingComponent::MoveBarrelTowards()
 void UTankAimingComponent::Fire()
 {
 
-	if (CurrentFiringState != EFiringState::Reloading)
+	if (CurrentFiringState == EFiringState::Aiming ||
+		CurrentFiringState == EFiringState::Locked)
 	{
 		if (!ensure(Barrel)) return;
 		if (!ensure(projectile)) return;
+
 		//Spawn a projectile at the location of socket
 		auto ProjectileObj = GetWorld()->SpawnActor<AProjectile>(
 			projectile,
@@ -121,6 +122,8 @@ void UTankAimingComponent::Fire()
 			);
 		ProjectileObj->LaunchProjectile(firingSpeed);
 		LastFireTime = FPlatformTime::Seconds();
+		firingLeft--;
 	}
 
 }
+
