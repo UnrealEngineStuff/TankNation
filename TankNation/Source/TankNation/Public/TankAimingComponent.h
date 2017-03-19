@@ -49,7 +49,7 @@ public:
 	EFiringState GetCurrentState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
-	int GetFiringCount() const;
+	int32 GetFiringCount() const;
 
 protected:
 	//Stores Current Firing state used by BP
@@ -77,17 +77,21 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Firing")
 	float firingSpeed = 8000.f;
 
+	UPROPERTY(EditAnywhere, Category = "Firing")
+	float ReloadTimeInSeconds = 0.5f;
+
+	UPROPERTY(EditAnywhere, Category = "Firing")
+	int32 firingLeft = 3;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> projectile;
 
-	UPROPERTY(EditAnywhere, Category = "Firing")
-	float ReloadTimeInSeconds = 0.5f;
 
 	UTankBarrel *Barrel = nullptr;
 	UTurret *Turret = nullptr;
 
 	float LastFireTime = 0;
 
-	int firingLeft = 3;
+
 
 };
