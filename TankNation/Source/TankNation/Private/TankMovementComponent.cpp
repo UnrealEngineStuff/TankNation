@@ -6,18 +6,11 @@
 
 void UTankMovementComponent::Initialize(UTankTrack * LeftTrackToSet, UTankTrack * RightTrackToSet)
 {
-	if (LeftTrackToSet)
-	{
-		LeftTrack=LeftTrackToSet ;
-	}
-
-	if (RightTrackToSet)
-	{
-		RightTrack = RightTrackToSet;
-	}
+	LeftTrack = LeftTrackToSet ;
+    RightTrack = RightTrackToSet;
 
 }
-
+//for AI tanks
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
 	//No Need to call super as we are replacing  code
@@ -27,13 +20,13 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	auto MoveVector = FVector::DotProduct(TankForward,AIForwardIntention);
 	IntendMoveForward(MoveVector);
 
-	auto RotateVector = FVector::CrossProduct(TankForward,AIForwardIntention);
-	IntendMoveRight(RotateVector.Z);
+	auto RotateVector = FVector::CrossProduct(TankForward,AIForwardIntention).Z;
+	IntendMoveRight(RotateVector);
 }
 
 void UTankMovementComponent::IntendMoveForward(float Value)
 {
-	if(!ensure(LeftTrack) || !ensure(RightTrack))	return;
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Value);
 	RightTrack->SetThrottle(Value);
 
@@ -41,9 +34,8 @@ void UTankMovementComponent::IntendMoveForward(float Value)
 
 void UTankMovementComponent::IntendMoveRight(float Value)
 {
-	if (!ensure(LeftTrack) || !ensure(RightTrack))	return;
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Value);
 	RightTrack->SetThrottle(-Value);
-
 }
 

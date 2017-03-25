@@ -19,40 +19,59 @@ void UTankAimingComponent::BeginPlay()
 {
 	LastFireTime = GetWorld()->GetTimeSeconds();
 }
-void UTankAimingComponent::TickComponent(float DeltaTime,
-	                                     enum ELevelTick TickType,
-										 FActorComponentTickFunction *ThisTickFunction)
-{
-	if (firingLeft <= 0)
-		CurrentFiringState = EFiringState::OutOfAmmo;
 
-	else if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds)
-		CurrentFiringState = EFiringState::Reloading;
-	else if (IsBarrelMoving())
-	{
-		CurrentFiringState = EFiringState::Aiming;
-	}
-	else
-		CurrentFiringState = EFiringState::Locked;
-}
-int32 UTankAimingComponent::GetFiringCount() const
-{
-	return firingLeft;
-}
 void UTankAimingComponent::InitializeAiming(UTurret * TurretToSet, UTankBarrel * Gun)
 {
 	Barrel = Gun;
 	Turret = TurretToSet;
 }
 
+void UTankAimingComponent::TickComponent(
+	                                     float DeltaTime,
+	                                     enum ELevelTick TickType,
+										 FActorComponentTickFunction *ThisTickFunction
+                                        )
+{
+	//Out of Ammo
+	if (firingLeft <= 0)
+	{
+		CurrentFiringState = EFiringState::OutOfAmmo;
+	}
+
+	else if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds)
+	{
+		CurrentFiringState = EFiringState::Reloading;
+	}
+	else if (IsBarrelMoving())
+	{
+		CurrentFiringState = EFiringState::Aiming;
+	}
+	else
+	{
+		CurrentFiringState = EFiringState::Locked;
+	}
+}
+int32 UTankAimingComponent::GetFiringCount() const
+{
+	return firingLeft;
+}
+
+
 EFiringState UTankAimingComponent::GetCurrentState() const
 {
 	return CurrentFiringState;
 }
 
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if (!ensure(Barrel)) { return false; }
+	auto forwardVector = Barrel->GetForwardVector();
+	return !forwardVector.Equals(CurrentAimDirection, 0.01);
+}
+
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
-	if (!ensure(Barrel) || !ensure(Turret)) return;
+	if (!ensure(Barrel))  return;
 
 	FVector OutTossVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -67,16 +86,12 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	{
 		CurrentAimDirection = OutTossVelocity.GetSafeNormal();
 		MoveBarrelTowards();
-		auto Time = GetWorld()->GetTimeSeconds();
 	}
+
+	//Do nothing if no solution found
 }
 
-bool UTankAimingComponent::IsBarrelMoving()
-{
-	if (!ensure(Barrel)) { return false; }
-	auto forwardVector = Barrel->GetForwardVector().GetSafeNormal();
-	return !forwardVector.Equals(CurrentAimDirection,0.001);
-}
+
 void UTankAimingComponent::MoveBarrelTowards()
 {
 	if (!ensure(Barrel) ||!ensure(Turret)) return;

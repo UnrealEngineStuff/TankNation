@@ -4,6 +4,7 @@
 #include "Tank.h"
 
 
+
 // Sets default values
 ATank::ATank()
 {
@@ -20,6 +21,24 @@ void ATank::BeginPlay()
 						//will not be called
 }
 
+float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent,
+	                    AController * EventInstigator, AActor * DamageCauser)
+{
+	//We want health in integers
+	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);
+
+	int32 ActualDamage = FMath::Clamp<int32>(DamagePoints, 0, CurrentHealth);
+
+	if (CurrentHealth <= 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("%s Dead"), *GetName());
+
+		return ActualDamage;
+	}
+
+	CurrentHealth -= ActualDamage;
+	return ActualDamage;
+}
 
 
 

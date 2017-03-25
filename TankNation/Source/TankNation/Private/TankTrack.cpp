@@ -19,10 +19,9 @@ void UTankTrack::OnHit(UPrimitiveComponent*HitComponent, AActor* OtherActor,
 	UPrimitiveComponent*OtherComponent, FVector NormalImpulse,
 	const FHitResult&Hit)
 {
-   auto Time = GetWorld()->GetTimeSeconds();
 	DriveTrack();
-//	ApplySideWaysForce();
-	CurrentThrottle = 0.f;
+	ApplySideWaysForce();
+	CurrentThrottle = 0;
 }
 
 void UTankTrack::ApplySideWaysForce()
@@ -52,6 +51,9 @@ void UTankTrack::DriveTrack()
 	auto ForceLocation = GetComponentLocation();
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
+	UE_LOG(LogTemp,Warning,TEXT("Applying Force Sideways %s"),*ForceLocation.ToString())
+
+
 }
 
 

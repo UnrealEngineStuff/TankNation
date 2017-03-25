@@ -21,7 +21,7 @@ public:
    
 	//Maximum Force Per Track
 	UPROPERTY(EditAnywhere,Category = "Movement")
-	float MaxForcePerTrack = 400000;  // Mass x Acceleration
+	float MaxForcePerTrack = 400000; // Assume 40 tonne tank, and 1g accelleration
 	
 private:
 	UTankTrack();
