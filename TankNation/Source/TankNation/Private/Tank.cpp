@@ -21,6 +21,11 @@ void ATank::BeginPlay()
 						//will not be called
 }
 
+float ATank::GetHealth() const
+{
+	return (float)CurrentHealth / (float)StartingHealth;
+}
+
 float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent,
 	                    AController * EventInstigator, AActor * DamageCauser)
 {

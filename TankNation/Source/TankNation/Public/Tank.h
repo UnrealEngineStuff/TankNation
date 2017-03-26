@@ -13,6 +13,16 @@ class TANKNATION_API ATank : public APawn
 {
 	GENERATED_BODY()
 
+public:
+	//BLueprint cant change anything
+	//it has no execution pin
+	UFUNCTION(BlueprintPure, Category = "Setup")
+	float GetHealth() const;
+
+private:
+	// Sets default values for this pawn's properties
+	ATank();
+
 
 	//Called by then engine when projectile hit in range
 	//Function to take Damage
@@ -26,9 +36,6 @@ class TANKNATION_API ATank : public APawn
 
 
 
-private:
-	// Sets default values for this pawn's properties
-	ATank();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
