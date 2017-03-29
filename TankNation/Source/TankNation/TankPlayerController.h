@@ -78,6 +78,12 @@ private:
 
 	UTankAimingComponent *AimingComponent;
 
+	virtual void SetPawn(APawn* InPawn) override;
+
+	UFUNCTION()
+	void OnDeathDelegate();
+
+
 	
 	
 };

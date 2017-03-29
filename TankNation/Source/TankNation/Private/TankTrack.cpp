@@ -51,8 +51,6 @@ void UTankTrack::DriveTrack()
 	auto ForceLocation = GetComponentLocation();
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
-	UE_LOG(LogTemp,Warning,TEXT("Applying Force Sideways %s"),*ForceLocation.ToString())
-
 
 }
 

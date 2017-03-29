@@ -5,7 +5,7 @@
 #include "TankNation.h"
 #include "TankPlayerController.h"
 #include "TankAimingComponent.h"
-
+#include "Tank.h"
 
 void ATankPlayerController::BeginPlay()
 {
@@ -18,6 +18,25 @@ void ATankPlayerController::BeginPlay()
 	
 	FoundAimingComponent(AimingComponent);
 	
+}
+void ATankPlayerController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(InPawn)) { return; }
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnDeathDelegate);
+
+	}
+}
+
+void ATankPlayerController::OnDeathDelegate()
+{
+	UE_LOG(LogTemp, Error, TEXT("%s Dead"), *GetName());
+	StartSpectatingOnly();
+	//UnPossess();
 }
 
 
@@ -93,7 +112,7 @@ bool ATankPlayerController::GetHitObjectLocation(FVector &LookDirection,FVector 
 		HitResult,
 		Start,
 		EndLocation,
-		ECollisionChannel::ECC_Visibility             //Basically Hit any target that is visible
+		ECollisionChannel::ECC_Camera             //Basically Hit any target that is visible
 	))
 		//update HitLocation
 	{

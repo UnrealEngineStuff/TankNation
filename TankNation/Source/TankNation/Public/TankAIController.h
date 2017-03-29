@@ -23,6 +23,11 @@ private:
 
 		virtual void BeginPlay() override;
 
+		virtual void SetPawn(APawn* InPawn) override;
+
+		UFUNCTION()
+		void OnDeathDelegate();
+
 		virtual void Tick(float DeltaTime) override;	
 
 };

@@ -3,6 +3,7 @@
 #include "TankNation.h"
 #include "TankAimingComponent.h"
 #include "TankAIController.h"
+#include "Tank.h"
 
 //Depends on movement Componenet via pathfinding 
 
@@ -11,6 +12,29 @@ void ATankAIController::BeginPlay()
 	Super::BeginPlay();
 
 
+}
+
+void ATankAIController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(InPawn)) { return; }
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnDeathDelegate);
+
+	}
+}
+
+void ATankAIController::OnDeathDelegate()
+{
+	UE_LOG(LogTemp, Error, TEXT("%s Dead"), *GetName());
+
+	if (!GetPawn()) { return; }
+	{
+		GetPawn()->DetachFromControllerPendingDestroy();
+	}
 }
 
 void ATankAIController::Tick(float DeltaTime)

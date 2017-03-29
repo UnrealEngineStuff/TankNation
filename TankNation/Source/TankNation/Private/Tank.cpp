@@ -19,6 +19,7 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay(); // If we donont called Begin Play then BeginPlay of Blueprint   
 						//will not be called
+	CurrentHealth = StartingHealth;
 }
 
 float ATank::GetHealth() const
@@ -36,7 +37,8 @@ float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent,
 
 	if (CurrentHealth <= 0)
 	{
-		UE_LOG(LogTemp, Error, TEXT("%s Dead"), *GetName());
+
+		OnDeath.Broadcast();
 
 		return ActualDamage;
 	}
