@@ -14,12 +14,20 @@ public:
 	// Sets default values for this actor's properties
 	AProjectile();
 
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Camera", meta = (DisplayName = "Camera Shake ~ Add Camera Shake on Take Damage event"))
+	void CameraShakeEvent(float scale);
+
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
-	void LaunchProjectile(float Speed);
+	void LaunchProjectile(float Speed,AActor*SetActorToIgnore);
 
 private:
+
+	//Actor to ignore whileCollision
+	AActor*ActorToIgnore;
 
 	UProjectileMovementComponent *ProjectileMovement = nullptr;
 

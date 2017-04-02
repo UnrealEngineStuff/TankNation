@@ -29,7 +29,6 @@ void ATankAIController::SetPawn(APawn* InPawn)
 
 void ATankAIController::OnDeathDelegate()
 {
-	UE_LOG(LogTemp, Error, TEXT("%s Dead"), *GetName());
 
 	if (!GetPawn()) { return; }
 	{

@@ -20,8 +20,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Setup")
 	float GetHealth() const;
 
-
-
 	FDeathEvent OnDeath;
 
 

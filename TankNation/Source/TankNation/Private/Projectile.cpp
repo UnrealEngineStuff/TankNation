@@ -11,8 +11,6 @@ AProjectile::AProjectile()
 	CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Collision Mesh"));
 	SetRootComponent(CollisionMesh);
 	CollisionMesh->SetNotifyRigidBodyCollision(true);
-	//TODO Check here Srajan
-	//we need to hide
 	CollisionMesh->SetVisibility(false);
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Launch Blast"));
 
@@ -39,6 +37,7 @@ AProjectile::AProjectile()
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
+
 	CollisionMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 	
 }
@@ -47,14 +46,20 @@ void AProjectile::OnHit(UPrimitiveComponent*HitComponent, AActor* OtherActor,
 						UPrimitiveComponent*OtherComponent, FVector NormalImpulse,
 						const FHitResult&Hit)
 {
-
+	
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
 
 	
 	ExplosionForce->FireImpulse();
 	SetRootComponent(ImpactBlast);
+	float scale = ExplosionForce->Radius/1000.0;
+	CameraShakeEvent(scale);
+
 	CollisionMesh->DestroyComponent();
+	TArray<AActor*>IgnoredActor;
+	if(ActorToIgnore)
+	IgnoredActor.Push(ActorToIgnore);
 
 	UGameplayStatics::ApplyRadialDamage(
 		GetWorld(),
@@ -62,8 +67,9 @@ void AProjectile::OnHit(UPrimitiveComponent*HitComponent, AActor* OtherActor,
 		GetActorLocation(),
 		ExplosionForce->Radius, //for consistency
 		UDamageType::StaticClass(),
-		TArray<AActor*>()      //Damage All Actors Check if we want it for all
+		IgnoredActor      //Damage All Actors Check if we want it for all
 	);
+
 	FTimerHandle ParticleDestroyer;
 	GetWorld()->GetTimerManager().SetTimer(ParticleDestroyer, this,
 		                                  &AProjectile::ProjectileDestroyerTimer,
@@ -78,9 +84,9 @@ void AProjectile::ProjectileDestroyerTimer()
 	Destroy();
 }
 
-void AProjectile::LaunchProjectile(float Speed)
+void AProjectile::LaunchProjectile(float Speed,AActor*SetActorToIgnore)
 {
+	ActorToIgnore = SetActorToIgnore;
 	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector*Speed);
 	ProjectileMovement->Activate();
-
 }

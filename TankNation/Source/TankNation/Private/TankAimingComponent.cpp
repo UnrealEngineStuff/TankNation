@@ -12,6 +12,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	CurrentFiringState = EFiringState::Reloading;
+	CurrentFiringGunState = EFiringGunState::ReloadingGun;
 
 }
 
@@ -20,10 +21,13 @@ void UTankAimingComponent::BeginPlay()
 	LastFireTime = GetWorld()->GetTimeSeconds();
 }
 
-void UTankAimingComponent::InitializeAiming(UTurret * TurretToSet, UTankBarrel * Gun)
+void UTankAimingComponent::InitializeAiming(UTurret * TurretToSet, UTankBarrel * BarrelToSet,
+	                                        UTankBarrel *GunToSet,UTankBarrel *GunToSet2)
 {
-	Barrel = Gun;
+	Barrel = BarrelToSet;
 	Turret = TurretToSet;
+	Gun = GunToSet;
+	Gun2 = GunToSet2;
 }
 
 void UTankAimingComponent::TickComponent(
@@ -32,7 +36,15 @@ void UTankAimingComponent::TickComponent(
 										 FActorComponentTickFunction *ThisTickFunction
                                         )
 {
-	//Out of Ammo
+	SetBarrelState();
+	SetGunState();
+	
+
+
+}
+
+void UTankAimingComponent::SetBarrelState()
+{
 	if (firingLeft <= 0)
 	{
 		CurrentFiringState = EFiringState::OutOfAmmo;
@@ -51,15 +63,48 @@ void UTankAimingComponent::TickComponent(
 		CurrentFiringState = EFiringState::Locked;
 	}
 }
+
+void UTankAimingComponent::SetGunState()
+{
+	//Out of Ammo
+
+	if (firingGunLeft <= 0)
+	{
+		CurrentFiringGunState = EFiringGunState::OutOfAmmoGun;
+	}
+	else if ((GetWorld()->GetTimeSeconds() - LastFireGunTime) < GunReloadTimeInSeconds)
+	{
+		CurrentFiringGunState = EFiringGunState::ReloadingGun;
+	}
+	else if (IsBarrelMoving())
+	{
+		CurrentFiringGunState = EFiringGunState::AimingGun;
+	}
+	else
+	{
+		CurrentFiringGunState = EFiringGunState::LockedGun;
+	}
+}
 int32 UTankAimingComponent::GetFiringCount() const
 {
 	return firingLeft;
+}
+
+int32 UTankAimingComponent::GetGunFiringCount() const
+{
+	return firingGunLeft;
 }
 
 
 EFiringState UTankAimingComponent::GetCurrentState() const
 {
 	return CurrentFiringState;
+}
+
+//get current gun firing state
+EFiringGunState UTankAimingComponent ::GetCurrentGunState() const
+{
+	return CurrentFiringGunState;
 }
 
 bool UTankAimingComponent::IsBarrelMoving()
@@ -106,6 +151,11 @@ void UTankAimingComponent::MoveBarrelTowards()
 	//it wll be clamped value greater than -1 will become -1
 	Barrel->Elevate(DeltaRot.Pitch);
 
+	if(Gun)
+	Gun->Elevate(DeltaRot.Pitch);
+	if(Gun2)
+	Gun2->Elevate(DeltaRot.Pitch);
+
 	
 	//TODO make sure that it takes smallest route
 	if (FMath::Abs(DeltaRot.Yaw) > 180.f)
@@ -135,10 +185,42 @@ void UTankAimingComponent::Fire()
 			Barrel->GetSocketLocation(FName("Projectile")),
 			Barrel->GetSocketRotation(FName("Projectile"))
 			);
-		ProjectileObj->LaunchProjectile(firingSpeed);
+		ProjectileObj->LaunchProjectile(firingSpeed, GetOwner());
 		LastFireTime = GetWorld()->GetTimeSeconds();
 		firingLeft--;
 	}
 
 }
 
+void UTankAimingComponent::FireGun()
+{
+
+	if (CurrentFiringGunState == EFiringGunState::AimingGun ||
+		CurrentFiringGunState == EFiringGunState::LockedGun)
+	{
+		if (!ensure(Gun)) return;
+		if (!ensure(Gun2)) return;
+		if (!ensure(Gunprojectile)) return;
+
+		//Spawn a Gun Projectile at the location of socket
+		auto ProjectileObj = GetWorld()->SpawnActor<AProjectile>(
+			Gunprojectile,
+			Gun->GetSocketLocation(FName("ProjectileGun")),
+			Gun->GetSocketRotation(FName("ProjectileGun"))
+			);
+		ProjectileObj->LaunchProjectile(firingSpeedGun,GetOwner());
+		
+
+		ProjectileObj = GetWorld()->SpawnActor<AProjectile>(
+			Gunprojectile,
+			Gun2->GetSocketLocation(FName("ProjectileGun")),
+			Gun2->GetSocketRotation(FName("ProjectileGun"))
+			);
+		ProjectileObj->LaunchProjectile(firingSpeedGun,GetOwner());
+		   LastFireGunTime = GetWorld()->GetTimeSeconds();
+		   firingGunLeft-=2;
+
+
+	}
+
+}

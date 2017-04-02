@@ -22,6 +22,8 @@ void ATank::BeginPlay()
 	CurrentHealth = StartingHealth;
 }
 
+
+
 float ATank::GetHealth() const
 {
 	return (float)CurrentHealth / (float)StartingHealth;
@@ -34,7 +36,7 @@ float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent,
 	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);
 
 	int32 ActualDamage = FMath::Clamp<int32>(DamagePoints, 0, CurrentHealth);
-
+	
 	if (CurrentHealth <= 0)
 	{
 
