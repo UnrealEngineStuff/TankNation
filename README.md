@@ -1,7 +1,6 @@
 ### TankNation
-Tank Nation is a tank shooter game where players have to regroup with allies But to do so they have to face enemies and have to destory them as they progress through each stage
+Tank Nation is a tank shooter game where players have to regroup with allies But to do so they have to face enemies and have to destory them as they progress through each stage.
 
-![Image of Game](https://goo.gl/photos/ysE9ESiVsaThRmA77)
 ____
 Part of the Udemy Course by Ben tristem.[Link To Course](https://www.udemy.com/unrealcourse/)
 
