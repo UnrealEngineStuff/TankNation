@@ -17,6 +17,8 @@ Thats it !!!
 * Shock effect after explosion
 * Many more
 
+### Issues
+* Tanks stops moving sometimes
 
 ![Game Menu](https://freedom911blog.files.wordpress.com/2017/04/screenshot-e1491301737631.jpg)
 ![Game Play](https://freedom911blog.files.wordpress.com/2017/04/capture.gif)
@@ -24,6 +26,8 @@ Thats it !!!
 
 ____
 Part of the Udemy Course by Ben tristem.[Link To Course](https://www.udemy.com/unrealcourse/)
+
+You are free to use my project :)
 
 Thank you <br />
 Freedom911 
