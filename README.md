@@ -1,5 +1,5 @@
-### TankNation
-Tank Nation is a tank shooter game where players have to regroup with allies But to do so they have to face enemies and have to destory them as they progress through each stage.
+### Tank Of Nation
+Tank Of Nation is a tank shooter game where players have to regroup with allies But to do so they have to face enemies and have to destory them as they progress through each stage.
 
 ### Requirements
 * Unreal Engine 4 
